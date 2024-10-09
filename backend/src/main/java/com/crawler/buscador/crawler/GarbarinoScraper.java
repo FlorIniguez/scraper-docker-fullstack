@@ -1,6 +1,5 @@
 package com.crawler.buscador.crawler;
 
-import com.crawler.buscador.Exceptions.ProductNotFoundException;
 import com.crawler.buscador.Exceptions.ScraperException;
 import com.crawler.buscador.models.Product;
 import com.crawler.buscador.utils.ConvertPrice;

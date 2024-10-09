@@ -1,6 +1,5 @@
 package com.crawler.buscador.controller;
 
-import com.crawler.buscador.Exceptions.ProductNotFoundException;
 import com.crawler.buscador.service.ScraperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
