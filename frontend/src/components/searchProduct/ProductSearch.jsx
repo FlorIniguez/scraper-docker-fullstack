@@ -19,42 +19,43 @@ const ProductSearch = () => {
   const [cheapestProduct, setCheapestProduct] = useState(null);
   const [searchMade, setSearchMade] = useState(false);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false); // Estado para la carga
+  const [loading, setLoading] = useState(false);
 
   const searchProducts = () => {
-    setLoading(true); // Iniciar carga
-    setProducts([]); // Limpiar productos antes de la nueva búsqueda
-    setCheapestProduct(null); // Limpiar el producto más barato antes de la nueva búsqueda
-    setError(null); // Limpiar cualquier error previo
+    console.log("Iniciando búsqueda para:", query);
+    setLoading(true);
+    setProducts([]); // Limpia los productos al iniciar una nueva búsqueda
+    setCheapestProduct(null);
+    setError(null);
+    setSearchMade(false); // Reiniciar estado de búsqueda realizada
 
     axios
-      .get(`http://localhost:8080/products/search?query=${query}`)
+      .get(`/api/products/search?query=${query}`) // Asegúrate de que esta ruta es correcta
       .then((response) => {
-        // Solo actualiza los estados si no hay error
+        console.log("Respuesta recibida:", response);
         setProducts(response.data.productList || []);
         setCheapestProduct(response.data.CheapestProduct || null);
         setSearchMade(true);
       })
       .catch((error) => {
         console.error("Error al traer productos:", error);
+        setProducts([]); // Asegúrate de que no haya productos en caso de error
+        setCheapestProduct(null);
         if (error.response && error.response.status === 404) {
-          setError("No se encontraron productos para la búsqueda.");
-          // Restablecer los productos si hay un error
-          setProducts([]); // Asegúrate de que no haya productos
-          setCheapestProduct(null); // Asegúrate de que no haya producto más barato
+          setError(`No se encontraron productos para: '${query}'`);
         } else {
           setError("Hubo un problema al buscar los productos.");
         }
-        setSearchMade(true);
+        setSearchMade(true); // Asegurarse de que se ha realizado la búsqueda
       })
       .finally(() => {
-        setLoading(false); // Finalizar carga
+        console.log("Finalizando búsqueda");
+        setLoading(false);
       });
   };
 
   return (
     <>
-      {/* Contenedor de búsqueda */}
       <Container maxWidth="lg" sx={{ mt: 4 }}>
         <Grid container spacing={2} alignItems="center">
           <Grid item xs={8}>
@@ -78,28 +79,21 @@ const ProductSearch = () => {
           </Grid>
         </Grid>
 
-        {/* Mostrar indicador de carga si está en proceso */}
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
-            <CircularProgress sx={{ color: "#ab003c" }} /> {/* Color rosa */}
+            <CircularProgress sx={{ color: "#ab003c" }} />
           </Box>
         ) : searchMade ? (
           products.length > 0 ? (
             <>
-              {/* Producto más barato */}
               <CheapestProduct product={cheapestProduct} />
-
-              {/* Lista de productos */}
               <Products products={products} />
             </>
-          ) : error ? (
-            <Alert severity="error" sx={{ mt: 4 }}>
-              {error}
-            </Alert>
           ) : (
-            <Typography variant="h6" sx={{ mt: 4 }} textAlign="center">
-              No se encontraron productos. Por favor, intente nuevamente.
-            </Typography>
+            <Alert severity="error" sx={{ mt: 4 }}>
+              {error ||
+                "No se encontraron productos. Por favor, intente nuevamente."}
+            </Alert>
           )
         ) : (
           <Typography variant="body1" sx={{ mt: 4 }} textAlign="left">
@@ -111,6 +105,4 @@ const ProductSearch = () => {
   );
 };
 
-
 export default ProductSearch;
-
