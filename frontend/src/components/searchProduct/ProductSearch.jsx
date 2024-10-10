@@ -24,32 +24,29 @@ const ProductSearch = () => {
   const searchProducts = () => {
     console.log("Iniciando búsqueda para:", query);
     setLoading(true);
-    setProducts([]); // Limpia los productos al iniciar una nueva búsqueda
+    setProducts([]); // Limpiar los productos al iniciar una nueva búsqueda
     setCheapestProduct(null);
     setError(null);
-    setSearchMade(false); // Reiniciar estado de búsqueda realizada
+    setSearchMade(false); 
 
     axios
-      .get(`/api/products/search?query=${query}`) // Asegúrate de que esta ruta es correcta
+      .get(`/api/products/search?query=${query}`) 
       .then((response) => {
-        console.log("Respuesta recibida:", response);
         setProducts(response.data.productList || []);
         setCheapestProduct(response.data.CheapestProduct || null);
         setSearchMade(true);
       })
       .catch((error) => {
-        console.error("Error al traer productos:", error);
-        setProducts([]); // Asegúrate de que no haya productos en caso de error
+        setProducts([]); 
         setCheapestProduct(null);
         if (error.response && error.response.status === 404) {
           setError(`No se encontraron productos para: '${query}'`);
         } else {
           setError("Hubo un problema al buscar los productos.");
         }
-        setSearchMade(true); // Asegurarse de que se ha realizado la búsqueda
+        setSearchMade(true); 
       })
       .finally(() => {
-        console.log("Finalizando búsqueda");
         setLoading(false);
       });
   };
