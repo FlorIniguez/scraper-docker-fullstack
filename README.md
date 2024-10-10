@@ -38,10 +38,10 @@ Para correr la aplicación de scraping, sigue estos pasos:
    ```bash
    git clone https://github.com/FlorIniguez/scraper-docker-fullstack
    
-   cd comparador-precios
+   cd scraper-docker-fullstack
 
 2. **Ejecutar Docker Compose:**
-   - Asegúrate de que Docker y Docker Compose estén instalados y en funcionamiento.
+   - Asegúrate de que Docker este instalado y en funcionamiento.
    - Ejecuta el siguiente comando para levantar los servicios:
 
       ```bash

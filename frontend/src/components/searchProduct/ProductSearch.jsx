@@ -30,6 +30,7 @@ const ProductSearch = () => {
     axios
       .get(`http://localhost:8080/products/search?query=${query}`)
       .then((response) => {
+        // Solo actualiza los estados si no hay error
         setProducts(response.data.productList || []);
         setCheapestProduct(response.data.CheapestProduct || null);
         setSearchMade(true);
@@ -38,6 +39,9 @@ const ProductSearch = () => {
         console.error("Error al traer productos:", error);
         if (error.response && error.response.status === 404) {
           setError("No se encontraron productos para la búsqueda.");
+          // Restablecer los productos si hay un error
+          setProducts([]); // Asegúrate de que no haya productos
+          setCheapestProduct(null); // Asegúrate de que no haya producto más barato
         } else {
           setError("Hubo un problema al buscar los productos.");
         }
@@ -107,4 +111,6 @@ const ProductSearch = () => {
   );
 };
 
+
 export default ProductSearch;
+
