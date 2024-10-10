@@ -49,5 +49,5 @@ Para correr la aplicación de scraping, sigue estos pasos:
       
 4. **Acceder a la Aplicación:**
 - Frontend: http://localhost:3000
-- Backend: http://localhost:8080
+
 

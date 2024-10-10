@@ -7,8 +7,8 @@ import {
   TextField,
   Button,
   Alert,
-  CircularProgress, 
-  Box
+  CircularProgress,
+  Box,
 } from "@mui/material";
 import CheapestProduct from "../cheapestProduct/CheapestProduct";
 import Products from "../productList/Products";
@@ -23,24 +23,24 @@ const ProductSearch = () => {
 
   const searchProducts = () => {
     setLoading(true); // Iniciar carga
+    setProducts([]); // Limpiar productos antes de la nueva búsqueda
+    setCheapestProduct(null); // Limpiar el producto más barato antes de la nueva búsqueda
+    setError(null); // Limpiar cualquier error previo
+
     axios
       .get(`http://localhost:8080/products/search?query=${query}`)
       .then((response) => {
         setProducts(response.data.productList || []);
         setCheapestProduct(response.data.CheapestProduct || null);
         setSearchMade(true);
-        setError(null); // Limpiar cualquier error previo
       })
       .catch((error) => {
         console.error("Error al traer productos:", error);
-        // Verifica si el error es 404 para mostrar un mensaje específico
         if (error.response && error.response.status === 404) {
           setError("No se encontraron productos para la búsqueda.");
         } else {
           setError("Hubo un problema al buscar los productos.");
         }
-        // searchMade se establece como true después de la búsqueda, sin importar si tuvo éxito
-        // o falló, permitiendo que la aplicación siga funcionando.
         setSearchMade(true);
       })
       .finally(() => {
@@ -76,11 +76,11 @@ const ProductSearch = () => {
 
         {/* Mostrar indicador de carga si está en proceso */}
         {loading ? (
-          <Box sx={{ display: 'flex', justifyContent: 'center', mt: 4 }}>
-            <CircularProgress sx={{ color: '#ab003c' }} /> {/* Color rosa */}
+          <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+            <CircularProgress sx={{ color: "#ab003c" }} /> {/* Color rosa */}
           </Box>
         ) : searchMade ? (
-          products && products.length > 0 ? (
+          products.length > 0 ? (
             <>
               {/* Producto más barato */}
               <CheapestProduct product={cheapestProduct} />
@@ -108,4 +108,3 @@ const ProductSearch = () => {
 };
 
 export default ProductSearch;
-
