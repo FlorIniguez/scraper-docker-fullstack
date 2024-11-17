@@ -1,53 +1,3 @@
-// import { Grid, Card, CardContent, CardMedia, Button, Typography, Box } from '@mui/material';
-
-// const Products = ({ products }) => {
-//   return (
-//     <Box sx={{ flexGrow: 1, mt: 4 }}>
-//       <Grid container spacing={4} justifyContent="center">
-//         {products.map((product, index) => (
-//           <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
-//             <Card sx={{ maxWidth: 345, mx: 'auto' }}>
-//               <CardMedia
-//                 component="img"
-//                 image={product.logo}
-//                 alt={product.name}
-//                 sx={{ height: 140, objectFit: 'contain', maxWidth: '250px', margin: '0 auto', padding: 2 }}
-//               />
-//               <CardContent>
-//                 <Typography 
-//                   gutterBottom 
-//                   variant="h6" 
-//                   component="div" 
-//                   align="center"
-//                   noWrap 
-//                   sx={{ 
-//                     maxWidth: '100%',  // Limitamos el ancho
-//                     overflow: 'hidden', // Ocultamos el desbordamiento
-//                     textOverflow: 'ellipsis' // Agregamos puntos suspensivos
-//                   }}
-//                 >
-//                   {product.name}
-//                 </Typography>
-//                 <Typography variant="body2" color="text.secondary" align="center">
-//                   Precio: <strong>${product.price}</strong>
-//                 </Typography>
-//               </CardContent>
-
-//               {/* Botón centrado */}
-//               <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-//                 <Button variant="contained" color="primary" href={product.link} target="_blank">
-//                   Ver Producto
-//                 </Button>
-//               </Box>
-//             </Card>
-//           </Grid>
-//         ))}
-//       </Grid>
-//     </Box>
-//   );
-// };
-
-// export default Products;
 
 import { Box, Grid, Card, CardContent, CardMedia, Button, Typography, Tooltip } from '@mui/material';
 import { styled } from '@mui/system';
@@ -102,7 +52,7 @@ const Products = ({ products }) => {
                   >
                     {product.name}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" align="center">
+                  <Typography variant="h5" color="text.secondary" align="center">
                     Precio: <strong>${product.price}</strong>
                   </Typography>
                 </CardContent>

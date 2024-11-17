@@ -22,7 +22,6 @@ const ProductSearch = () => {
   const [loading, setLoading] = useState(false);
 
   const searchProducts = () => {
-    console.log("Iniciando búsqueda para:", query);
     setLoading(true);
     setProducts([]); // Limpiar los productos al iniciar una nueva búsqueda
     setCheapestProduct(null);
