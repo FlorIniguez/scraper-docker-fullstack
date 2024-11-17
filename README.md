@@ -46,7 +46,7 @@ Para correr la aplicación de scraping, sigue estos pasos:
    - Ejecuta el siguiente comando para levantar los servicios:
 
       ```bash
-      docker-compose up
+      docker-compose up -d
       
 4. **Acceder a la Aplicación:**
 - Frontend: http://localhost:3000
