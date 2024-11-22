@@ -1,0 +1,19 @@
+<Configuration status="WARN">
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="%d{HH:mm:ss.SSS} - %msg%n"/>
+		</Console>
+	
+		<Socket name="Logstash" host="logstash" port="5000">
+			<JsonLayout properties="true" compact="true" eventEol="true"/>
+		</Socket>
+	</Appenders>
+	
+	<Loggers>
+		<Root level="info">
+			<AppenderRef ref="Console"/>
+			<AppenderRef ref="Logstash"/>
+		</Root>
+	</Loggers>
+	</Configuration>
+	

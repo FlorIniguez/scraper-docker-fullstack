@@ -68,7 +68,7 @@ public class MlibreScraper implements Scraper {
             }
 
         } catch (IOException e) {
-            log.error("Error during scraping process: ", e);
+            log.error("Error during scraping process:", e);
             throw new ScraperException("Error connecting to Mercado Libre", e);
         }
         return products;

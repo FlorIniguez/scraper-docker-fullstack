@@ -3,22 +3,23 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
+    container_name: backend
     ports:
       - "8080:8080"
     networks:
-      - app-network
       - elk
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
+    container_name: frontend
     ports:
       - "3000:80"
     depends_on:
       - backend
     networks:
-      - app-network
+      - elk
 
 
   elasticsearch:
@@ -33,7 +34,6 @@ services:
       - xpack.security.enabled=false
     volumes:
       - elasticsearch_data:/usr/share/elasticsearch/data
-      #- es_data:/usr/share/elasticsearch/data
     networks:
       - elk
 
@@ -59,7 +59,6 @@ services:
     ports:
       - "5044:5044"
       - "5000:5000/tcp"
-      - "5000:5000/udp"
       - "9600:9600"
     environment:
       LS_JAVA_OPTS: "-Xmx512m -Xms512m"
@@ -70,11 +69,9 @@ services:
 
 
 networks:
-  app-network:
-    driver: bridge
-  
   elk:
     driver: bridge
 
 volumes:
   elasticsearch_data:
+ 

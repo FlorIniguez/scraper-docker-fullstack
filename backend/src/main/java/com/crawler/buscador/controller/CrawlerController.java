@@ -27,7 +27,7 @@ public class CrawlerController {
         try {
             // Llamar al servicio y capturar la respuesta
             Map<String, Object> response = scraperService.searchAndDisplay(query);
-            log.info("Search successful for quey: {}", query);
+            log.info("Search successful for query: {}", query);
             return ResponseEntity.ok(response);
 
         } catch (ProductNotFoundException e) {
