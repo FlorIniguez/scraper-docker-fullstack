@@ -1,5 +1,6 @@
 package com.crawler.buscador.crawler;
 
+import com.crawler.buscador.Exceptions.ProductNotFoundException;
 import com.crawler.buscador.Exceptions.ScraperException;
 import com.crawler.buscador.models.Product;
 import com.crawler.buscador.utils.ConvertPrice;
@@ -26,7 +27,7 @@ public class RodoScraper implements Scraper {
 
     @Override
     public List<Product> searchProduct(String productName) {
-        log.info("Starting search for product:{}",productName);
+        log.info("Starting search for product:{}", productName);
         return scrapeRodo(productName);
     }
 
@@ -40,7 +41,9 @@ public class RodoScraper implements Scraper {
             log.info("Connecting to URL:{}", searchUrl);
             Document doc = Jsoup.connect(searchUrl).get();
             Elements productElements = doc.select("li.products");
-            //convierto productname de un array a una lista
+            // Log de cantidad de elementos encontrados en la página
+            log.debug("Found {} product elements", productElements.size());
+            // convierto productname de un array a una lista
             List<String> queryWords = Arrays.asList(productName.toLowerCase().split(" "));
 
             // Procesar los elementos del producto
@@ -54,14 +57,23 @@ public class RodoScraper implements Scraper {
                 boolean allWordsMatch = queryWords.stream().allMatch(name::contains);
 
                 if (allWordsMatch && !name.isEmpty() && !price.isEmpty() && !link.isEmpty()) {
-                    log.debug("Product matches query: {}, Name:{}, Price:{}",name,price,link);
+                    log.debug("Product matches query: {}, Name:{}, Price:{}", name, price, link);
                     products.add(new Product(name, priceDouble, link, logo));
                 }
             }
+            // Si no se encontraron productos, lanzar la excepción
+            if (products.isEmpty()) {
+                log.error("No products found for the query: {}", productName);
+                throw new ProductNotFoundException(productName);
+            }
+
         } catch (IOException e) {
-            log.error("Error during scraping process: ", e);
-            throw new ScraperException("Error connecting to Rodo", e);
+            log.error("Error during scraping process:", e);
+            throw new ScraperException("Error connecting to Mercado Libre", e);
         }
+        // Log final de la búsqueda
+        log.info("Completed search for product: {}", productName);
+        log.debug("Total products found: {}", products.size());
         return products;
     }
 }

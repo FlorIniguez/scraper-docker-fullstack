@@ -1,6 +1,21 @@
 package com.crawler.buscador.service;
 
-import com.crawler.buscador.Exceptions.ProductNotFoundException;
+import static com.crawler.buscador.utils.PriceComparator.priceComparator;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.crawler.buscador.crawler.GarbarinoScraper;
 import com.crawler.buscador.crawler.MlibreScraper;
 import com.crawler.buscador.crawler.RodoScraper;
@@ -8,17 +23,6 @@ import com.crawler.buscador.models.Product;
 import com.crawler.buscador.utils.PriceComparator;
 
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.crawler.buscador.utils.PriceComparator.priceComparator;
 
 @Service
 @Slf4j
@@ -37,8 +41,9 @@ public class ScraperService {
         log.info("Starting product search for: {}", productName);
         // Crear los CompletableFutures para cada scraper, ejecuta cada scraper en un
         // hilo separado para buscar productos asincrónicamente.
-        //System.currentTimeMillis() para calcular el tirmpo de ejecucion
+        // System.currentTimeMillis() para calcular el tirmpo de ejecucion
         long overallStart = System.currentTimeMillis();
+
         CompletableFuture<List<Product>> garbarinoFuture = CompletableFuture
                 .supplyAsync(() -> garbarinoScraper.searchProduct(productName))
                 .exceptionally(ex -> {
@@ -71,10 +76,11 @@ public class ScraperService {
             List<Product> mlibreProducts = mlibreFuture.get();
             List<Product> rodoProducts = rodoFuture.get();
 
-            // Si todos están vacíos, lanza la excepción
+            // Si todos están vacíos, no lanzo una excepción, sino que respondemos con una
+            // lista vacía
             if (garbarinoProducts.isEmpty() && mlibreProducts.isEmpty() && rodoProducts.isEmpty()) {
-                log.error("No product found");
-                throw new ProductNotFoundException(productName);
+                log.info("No products found for: {}", productName);
+                return Collections.singletonMap("error", "No products found for the given search term");
             }
 
             // Encontrar el producto más barato
@@ -85,7 +91,7 @@ public class ScraperService {
             log.info("Creating response with sorted product list for: {}", productName);
             Map<String, Object> response = new HashMap<>();
             cheapestProduct.ifPresent(product -> response.put("CheapestProduct", product));
-            log.debug("Sorting and combining products from all sources for: {}",productName);
+            log.debug("Sorting and combining products from all sources for: {}", productName);
             response.put("SortedProducts", Stream.of(rodoProducts, mlibreProducts, garbarinoProducts)
                     .flatMap(List::stream)
                     .sorted(Comparator.comparing(Product::getPrice))

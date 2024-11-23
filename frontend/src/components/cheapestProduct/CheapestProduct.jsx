@@ -75,7 +75,7 @@ const CheapestProduct = ({ product }) => {
             >
               {product.name}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            <Typography variant="h5" color="text.secondary">
               Precio: <strong>${product.price}</strong>
             </Typography>
           </CardContent>

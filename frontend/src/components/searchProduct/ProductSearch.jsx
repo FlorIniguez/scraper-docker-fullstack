@@ -31,19 +31,25 @@ const ProductSearch = () => {
     axios
       .get(`/api/products/search?query=${query}`) 
       .then((response) => {
-        setProducts(response.data.productList || []);
+        setProducts(response.data.SortedProducts || []); 
         setCheapestProduct(response.data.CheapestProduct || null);
         setSearchMade(true);
       })
       .catch((error) => {
         setProducts([]); 
         setCheapestProduct(null);
-        if (error.response && error.response.status === 404) {
-          setError(`No se encontraron productos para: '${query}'`);
+        if (error.response) {
+          if (error.response.status === 404) {
+            setError(`No se encontraron productos para: '${query}'`);
+          } else {
+            setError(`Error en la respuesta del servidor: ${error.response.status}`);
+          }
+        } else if (error.request) {
+          setError("No se pudo conectar al servidor.");
         } else {
-          setError("Hubo un problema al buscar los productos.");
+          setError(`Error desconocido: ${error.message}`);
         }
-        setSearchMade(true); 
+        setSearchMade(true);
       })
       .finally(() => {
         setLoading(false);
@@ -69,6 +75,7 @@ const ProductSearch = () => {
               color="primary"
               fullWidth
               onClick={searchProducts}
+              disabled={loading}
             >
               Buscar
             </Button>
