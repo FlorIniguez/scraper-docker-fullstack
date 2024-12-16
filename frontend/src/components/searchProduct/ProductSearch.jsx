@@ -64,6 +64,7 @@ const ProductSearch = () => {
             <TextField
               fullWidth
               label="Buscar producto"
+              className="textfield-buscador"
               variant="outlined"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
@@ -73,6 +74,7 @@ const ProductSearch = () => {
             <Button
               variant="contained"
               color="primary"
+              className = "search-button"
               fullWidth
               onClick={searchProducts}
               disabled={loading}

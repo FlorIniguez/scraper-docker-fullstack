@@ -22,7 +22,7 @@ const Products = ({ products }) => {
       </Typography>
       <Grid container spacing={4} justifyContent="space-around">
         {products.map((product, index) => (
-          <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
+          <Grid item key={index} xs={12} sm={6} md={4} lg={3} className="found-products">
             <Tooltip title={product.name} arrow>
               <StyledCard sx={{ width: '100%' }}>
                 <CardMedia
