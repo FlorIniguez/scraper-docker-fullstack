@@ -1,4 +1,4 @@
-# FullStack (JAVA/REACT). Scraping de Productos (Aún en desarrollo)
+# FullStack (JAVA/REACT). Scraping de Productos.
 
 Este proyecto consiste en un scraper en Java para buscar y comparar productos ***electro y tecnologia*** en diferentes sitios web de e-commerce. Hasta ahora, se han implementado scrapers para tres sitios web: Rodo, Mercado Libre y Garbarino.
 
