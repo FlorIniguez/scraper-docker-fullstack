@@ -1,4 +1,4 @@
-# FullStack (JAVA/REACT) de Scraping de Productos (Aún en desarrollo)
+# FullStack (JAVA/REACT). Scraping de Productos (Aún en desarrollo)
 
 Este proyecto consiste en un scraper en Java para buscar y comparar productos ***electro y tecnologia*** en diferentes sitios web de e-commerce. Hasta ahora, se han implementado scrapers para tres sitios web: Rodo, Mercado Libre y Garbarino.
 
@@ -16,7 +16,7 @@ El scraper extrae datos relevantes, como el nombre del producto, el precio y el 
 
 ### Backend
 - **Java**: Lenguaje de programación utilizado para desarrollar el backend.
-- **Spring Boot**: Framework para crear aplicaciones Java basadas en microservicios.
+- **Spring Boot**: Framework.
 - **Maven**: Herramienta de gestión de proyectos y automatización de construcción.
 - **Docker**: Plataforma utilizada para contenerizar la aplicación.
 
@@ -26,7 +26,7 @@ El scraper extrae datos relevantes, como el nombre del producto, el precio y el 
 
 ### Otras
 - **JSoup**: Biblioteca para realizar scraping de contenido HTML.
-
+- **ELK**: Elasticsearch,  Logstash y Kibana. Para registro y monitoreo de logs.
 
 
 ## Instrucciones para Ejecutar la Aplicación
