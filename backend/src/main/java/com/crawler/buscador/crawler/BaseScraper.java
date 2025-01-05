@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public abstract class BaseScraper implements Scraper {
     // Método comun, crear URL
-    protected String buildSearchUrl(String baseUrl, String productName) {
+    public String buildSearchUrl(String baseUrl, String productName) {
         // Codificar el nombre del producto para que sea válido en la URL
         String endodedProductName = URLEncoder.encode(productName, StandardCharsets.UTF_8);
         // Combino la url base con el nombre del producto codificado
