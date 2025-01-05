@@ -16,7 +16,7 @@ El scraper extrae datos relevantes, como el nombre del producto, el precio y el 
 
 ### Backend
 - **Java**: Lenguaje de programación utilizado para desarrollar el backend.
-- **Spring Boot**: Framework.
+- **Spring**: Framework.
 - **Maven**: Herramienta de gestión de proyectos y automatización de construcción.
 - **Docker**: Plataforma utilizada para contenerizar la aplicación.
 
