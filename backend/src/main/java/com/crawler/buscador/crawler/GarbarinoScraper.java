@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Pattern;
+
 
 @Component
 @Slf4j
@@ -52,9 +52,12 @@ public class GarbarinoScraper extends BaseScraper {
             // Convierto el precio en un double
             double priceDouble = ConvertPrice.convertPriceDouble(price);
             // Filtrar productos por coincidencia exacta de todas las palabras
-            boolean allWordsMatch = queryWords.stream()
-                    .allMatch(word -> name.toLowerCase().matches(".*\\b" + Pattern.quote(word) + "\\b.*"));
-
+            // ||b delimitador, que toda la palabra coincida - Pattern.quote(word): Escapa
+            // cualquier carácter especial que podría haber en las palabras.
+            // boolean allWordsMatch = queryWords.stream()
+            // .allMatch(word -> name.toLowerCase().matches(".*\\b" + Pattern.quote(word) +
+            // "\\b.*"));
+            boolean allWordsMatch = queryWords.stream().allMatch(name::contains);
             if (allWordsMatch && !name.isEmpty() && !price.isEmpty() && !link.isEmpty()) {
                 log.debug("Product matches query: {}", productName);
                 products.add(new Product(name, priceDouble, link, logo));
